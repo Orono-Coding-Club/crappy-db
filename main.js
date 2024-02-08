@@ -34,7 +34,7 @@ app.get("/postcomment", async (req, res) => {
         queries = JSON.stringify(queries)
         comments.push(queries)
 
-        fs.writeFile("\\Users\\zman2\\Documents\\GitHub\\Club-website-API\\comments.txt",
+        fs.writeFile("\\Users\\zman2\\Documents\\GitHub\\Club-website-API\\comments.txt", // note to self: remember to replace this with the file path
 
             `[${comments.toString()}]`,
 
