@@ -2,27 +2,18 @@ const express = require("express");
 const fs = require("fs")
 const app = express();
 const port = 3000;
+let comments = []
 
-// const comments = fs.readFile("\\Users\\zman2\\Documents\\GitHub\\Club-website-API\\comments.txt",
-//     function (err) { 
-//         if (err) { 
-//             return console.log(err); 
-//         }  
-//         console.log("Successfully read the file."); 
-//     } )
-
-
-
-// async function initstuff() {
-//     const comments = await fetch("./comments.txt")
-//     comments = comments.text() 
-//     return comments
-// }
-// let comments = initstuff()
-
-let comments = [
-
-]
+fs.readFile("\\Users\\zman2\\Documents\\GitHub\\Club-website-API\\comments.txt", // replace with file path
+    "utf-8",
+    function (err,data) { 
+        if (err) { 
+            return console.log(err); 
+        }  
+        console.log("Successfully read the file."); 
+        console.log(data)
+        comments = JSON.parse(data)
+    } )
 
 app.get("/postcomment", async (req, res) => {
     //res.send("{\"test\":true}");
@@ -63,7 +54,7 @@ app.get("/postcomment", async (req, res) => {
 });
 
 app.get("/getcomments", async (req, res) => {
-    console.log("get request")
+    console.log(`get request, sending ${comments}`)
     res.send({
         "result": "200 OK",
         "data": comments
@@ -75,5 +66,3 @@ app.get("/getcomments", async (req, res) => {
 app.listen(port, () => {
 console.log(`Server listening on port ${port}`);
 });
-
-console.log(`Init complete. Comments loaded: ${comments.toString()}`)
