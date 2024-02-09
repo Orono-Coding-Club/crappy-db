@@ -17,21 +17,22 @@ fs.readFile("\\Users\\zman2\\Documents\\GitHub\\Club-website-API\\comments.txt",
 
 app.get("/postcomment", async (req, res) => {
     //res.send("{\"test\":true}");
-    let queries = req.query; // later switch to req.headers .
+    let queries = req.query //req.query; // later switch to req.headers .
     console.log(`comment post request ${JSON.stringify(queries)}`)
 
     if (queries.hasOwnProperty("username") && queries.hasOwnProperty("text") && queries.hasOwnProperty("time")) {
         let result = "200 OK"
-        queries = JSON.stringify(queries)
         comments.push(queries)
+        queries = JSON.stringify(queries)
 
         fs.writeFile("\\Users\\zman2\\Documents\\GitHub\\Club-website-API\\comments.txt", // note to self: remember to replace this with the file path
 
-            `[${comments.toString()}]`,
+            JSON.stringify(comments),
 
             async function (err) { 
                 if (err) { 
-                    return console.log(err); 
+                    result = "500 INTERNAL ERROR"
+                    return console.log(err);
                 }  
                 console.log(comments); 
                 } 
@@ -54,7 +55,7 @@ app.get("/postcomment", async (req, res) => {
 });
 
 app.get("/getcomments", async (req, res) => {
-    console.log(`get request, sending ${comments}`)
+    console.log(`get request ${new Date(Date.now()).toString()} sending ${JSON.stringify(comments)}`)
     res.send({
         "result": "200 OK",
         "data": comments
